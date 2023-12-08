@@ -1,13 +1,28 @@
-// Pushes value of whatever button is clicked to the input field
+let operatorClicked = false;
+
 function pushToDisplay(value) {
     const display = document.getElementById('display');
-    display.value += value;
+    
+    // Check if the value is an operator
+    const isOperator = ['+', '-', '*', '/'].includes(value);
+
+    // If the value is an operator and an operator has already been clicked the user is alerted
+    if (isOperator && operatorClicked) {
+        alert("Invalid Input!");
+        return;
+    } else {
+        // if the user input is not an operator, the value is pushed to the text input area (number)
+        display.value += value;
+        // Update operatorClicked flag if the value is an operator
+        operatorClicked = isOperator;
+    }
 }
 
 // clears display when the clear button is clicked
 function clearDisplay() {
     const display = document.getElementById('display');
     display.value = "";
+    operatorClicked = false;
 }
 
 function equals() {
