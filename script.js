@@ -2,6 +2,7 @@ let operatorClicked = false;
 
 function pushToDisplay(value) {
     const display = document.getElementById('display');
+    const currentValue = display.value;
     
     // Check if the value is an operator
     const isOperator = ['+', '-', '*', '/'].includes(value);
@@ -25,10 +26,6 @@ function clearDisplay() {
     operatorClicked = false;
 }
 
-function equals() {
-    const display= document.getElementById('display');
-    display.value = display.value + "=";
-}
 
 // function that disables all buttons accept the clear button
 function disableButtons() {
@@ -77,7 +74,6 @@ buttons.forEach((button) => {
         // if the "=" is clicked, the calculate function is called and the expression is calculated
         } else if (button.textContent === '=') {
             calculate();
-            equals();
         // when any other buttons are clicked, the
         } else {
             pushToDisplay(button.textContent);
