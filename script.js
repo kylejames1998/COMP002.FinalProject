@@ -69,13 +69,17 @@ buttons.forEach((button) => {
     button.addEventListener('click' , () => {
         // If the clear button is clicked, the display is cleared
         if (button.textContent ==="C") {
+            // if the clear button is clicked, clearDisplay is called to clear the input area
             clearDisplay();
+            // if the clear button is clicked, enableButtons is called to ensure the buttons are clickable after the display is cleared
             enableButtons();
         // if the "=" is clicked, the calculate function is called and the expression is calculated
         } else if (button.textContent === '=') {
+            // calculate is called to perform the cslculations of the the expression thats currebtly in the input area
             calculate();
         // when any other buttons are clicked, the
         } else {
+            // if any of the number buttons are clicked, the text content of the spexifoc button is pushed to the inout area 
             pushToDisplay(button.textContent);
         }
     });
