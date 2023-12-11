@@ -1,4 +1,5 @@
 let operatorClicked = false;
+let finalExpression = '';
 
 function pushToDisplay(value) {
     const display = document.getElementById('display');
@@ -7,15 +8,30 @@ function pushToDisplay(value) {
     // Check if the value is an operator
     const isOperator = ['+', '-', '*', '/'].includes(value);
 
+    // checks if the current value is empty and if the user is trying to enter an operator prior to a number
+    if (currentValue === '' && isOperator) {
+        // if the first input is an operator, nothing is done as we don't want the user to input an operator first.
+        return;
+    }
+    
+
+    // check if the value is a zero
+    const ifZero = value === "0"
+
     // If the value is an operator and an operator has already been clicked the user is alerted
     if (isOperator && operatorClicked) {
         alert("Invalid Input!");
         return;
     } else {
-        // if the user input is not an operator, the value is pushed to the text input area (number)
+        // checks to see if there is already a leading zero in the input area, if there is, it doesn't allow the input of another zero
+        if (ifZero && currentValue === "0") {
+            return;
+        }
         display.value += value;
-        // Update operatorClicked flag if the value is an operator
+        // Update operatorClicked if the value is an operator
         operatorClicked = isOperator;
+        // updates the expression with the new value from user input
+        finalExpression += value;
     }
 }
 
@@ -52,14 +68,19 @@ function calculate() {
     const display = document.getElementById('display');
     // try block that tries to calculate the expression
     try {
-        display.value = eval(display.value) 
-         let result = display.value;
-        localStorage.setItem("lastExpression" , result);
+        // setting 2 variables to hold the values to create the expression we want shown
+        const expression = display.value;
+        const result = eval(expression);
+        finalExpression = `${expression}=${result}`;
+        display.value = finalExpression;
+        localStorage.setItem("lastExpression" , finalExpression);
         disableButtons();
+        setExpression();
     // if an error is thrown, an alert is shown and the input area is "cleared"
     } catch (error) {
         alert("Error!")
         display.value = ""
+        finalExpression = "";
     }
 }
 
@@ -75,12 +96,18 @@ buttons.forEach((button) => {
             enableButtons();
         // if the "=" is clicked, the calculate function is called and the expression is calculated
         } else if (button.textContent === '=') {
-            // calculate is called to perform the cslculations of the the expression thats currebtly in the input area
+            // calculate is called to perform the calculations of the the expression thats currently in the input area
             calculate();
         // when any other buttons are clicked, the
         } else {
-            // if any of the number buttons are clicked, the text content of the spexifoc button is pushed to the inout area 
+            // if any of the number buttons are clicked, the text content of the specific button is pushed to the input area 
             pushToDisplay(button.textContent);
         }
     });
 });
+
+// updates the last result content at time of calculation 
+function setExpression() {
+    let span = document.querySelector('h2');
+    span.textContent =  "Last Expression: " + localStorage.getItem('lastExpression');
+}
