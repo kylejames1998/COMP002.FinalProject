@@ -66,6 +66,12 @@ function enableButtons() {
 // uses the eval method to calculate the expression that is in the input area
 function calculate() {
     const display = document.getElementById('display');
+    // checks to ensure an expression is entered prior to calculation
+    if (display.value === '') {
+        // alerts the user if an expression is not present
+        alert('Please enter an expression');
+        return;
+    }
     // try block that tries to calculate the expression
     try {
         // setting 2 variables to hold the values to create the expression we want shown
@@ -108,6 +114,6 @@ buttons.forEach((button) => {
 
 // updates the last result content at time of calculation 
 function setExpression() {
-    let span = document.querySelector('h2');
-    span.textContent =  "Last Expression: " + localStorage.getItem('lastExpression');
+    let lastExpression = document.querySelector('h2');
+    lastExpression.textContent =  "Last Expression: " + localStorage.getItem('lastExpression');
 }
